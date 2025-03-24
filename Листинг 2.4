@@ -1,0 +1,77 @@
+#include <iostream>
+#include <vector>
+
+using Matrix = std::vector<std::vector<int>>;
+
+Matrix multiplyMatrices(const Matrix& a, const Matrix& b) {
+    int aRows = a.size();
+    int aCols = a[0].size();
+    int bRows = b.size();
+    int bCols = b[0].size();
+
+    // Проверка на возможность умножения матриц
+    if (aCols != bRows) {
+        throw std::invalid_argument("Matrix dimensions do not match for multiplication.");
+    }
+
+    // Инициализация результирующей матрицы нулями
+    Matrix c(aRows, std::vector<int>(bCols, 0));
+
+    for (int i = 0; i < aRows; ++i) {
+        for (int j = 0; j < bCols; ++j) {
+            for (int k = 0; k < aCols; ++k) {
+                c[i][j] += a[i][k] * b[k][j];
+            }
+        }
+    }
+
+    return c;
+}
+
+int main() {
+    Matrix a = {
+        {1, 2, 3},
+        {4, 5, 6}
+    };
+
+    Matrix b = {
+        {7, 8},
+        {9, 10},
+        {11, 12}
+    };
+
+    try {
+        Matrix result = multiplyMatrices(a, b);
+
+        // Вывод результата
+        for (const auto& row : result) {
+            for (int elem : row) {
+                std::cout << elem << " ";
+            }
+            std::cout << std::endl;
+        }
+    } catch (const std::invalid_argument& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+
+    return 0;
+}
+
+
+/* Вот переписанный код на C++ с использованием более современных и безопасных подходов, таких как использование std::vector для представления матриц:
+### Основные изменения:
+1. Использование std::vector:
+   - Матрицы представлены как std::vector<std::vector<int>>, что позволяет динамически управлять размерами матриц и избегать ручного управления памятью.
+Проверка размеров матрициц**:
+   - Перед умножением проверяется, совпадают ли размеры матриц для выполнения операции умножения. Если нет, выбрасывается исключение.
+Инициализация результирующей матрицыцы**:
+   - Результирующая матрица c инициализируется нулями с использованием конструктора std::vector.
+Индексация с нуляля**:
+   - В C++ индексация массивов и векторов начинается с 0, поэтому циклы начинаются с 0 и идут до size - 1.
+
+### Пример работы:
+- В main создаются две матрицы a и b.
+- Функция multiplyMatrices умножает матрицы и возвращает результат.
+- Результат выводится на экран. Если размеры матриц не подходят для умножения, программа выводит сообщение об ошибке.
+
+Этот код более безопасен и удобен для использования в C++ благодаря использованию стандартной библиотеки. */
