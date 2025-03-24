@@ -1,0 +1,52 @@
+#include <iostream>
+#include <string>
+
+int findmatch(const std::string& pattern, const std::string& text) {
+    int plen = pattern.length();
+    int tlen = text.length();
+
+    for (int i = 0; i <= tlen - plen; ++i) {
+        int j = 0;
+        while (j < plen && text[i + j] == pattern[j]) {
+            ++j;
+        }
+        if (j == plen) {
+            return i; // Возвращаем позицию первого совпадения
+        }
+    }
+    return -1; // Если совпадений не найдено
+}
+
+int main() {
+    std::string text = "This is a simple text example.";
+    std::string pattern = "simple";
+
+    int position = findmatch(pattern, text);
+    if (position != -1) {
+        std::cout << "Pattern found at position: " << position << std::endl;
+    } else {
+        std::cout << "Pattern not found." << std::endl;
+    }
+
+    return 0;
+}
+
+
+/*  ### Основные изменения:
+1. Использование std::string:
+   - Вместо работы с C-строками (char*) используется класс std::string, который предоставляет удобные методы для работы со строками, такие как length().
+Параметры функцииии**:
+   - Функция findmatch принимает два параметра типа const std::string&, что позволяет передавать строки по ссылке без копирования.
+
+3. Метод length():
+   - Для получения длины строк используется метод length() вместо strlen().
+
+4. Возврат позиции:
+   - Если подстрока найдена, возвращается её позиция в тексте. Если подстрока не найдена, возвращается -1.
+
+### Пример работы:
+- В main создаются две строки: text (текст, в котором ищется подстрока) и pattern (подстрока, которую нужно найти).
+- Функция findmatch ищет подстроку pattern в строке text и возвращает позицию первого символа совпадения.
+- Если подстрока найдена, программа выводит позицию, иначе сообщает, что подстрока не найдена.
+
+Этот код более безопасен и удобен для использования в C++ благодаря использованию стандартной библиотеки. */
